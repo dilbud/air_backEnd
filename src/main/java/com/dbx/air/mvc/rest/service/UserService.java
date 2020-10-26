@@ -16,11 +16,6 @@ public class UserService implements UserServiceInterface{
     }
 
     @Override
-    public User getUser(int id){
-        return userDAO.getUser(id);
-    }
-
-    @Override
     public User getUser(String email, String password){
         return userDAO.getUser(email, password);
     }

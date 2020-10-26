@@ -7,18 +7,22 @@ import com.dbx.air.mvc.rest.exception.InventoryNotFoundException;
 import com.dbx.air.mvc.rest.exception.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 
+/**
+ * Exception advice client <-> controller
+ */
 @RestControllerAdvice
 public class UserExceptionHandlerRestAdvice {
 
     @ExceptionHandler
     public ResponseEntity<ErrorMsg> handleException(Exception exc, HttpServletRequest httpRequest) {
 
-        System.out.println("dddddddd "+ httpRequest.getPathInfo() + " "+ httpRequest.getMethod() + " "+ exc.getMessage());
+//        System.out.println("Top class Exception "+ httpRequest.getPathInfo() + " "+ httpRequest.getMethod() + " "+ exc.getMessage());
         ErrorMsg msg = new ErrorMsg();
 
         msg.setStatus(String.valueOf(HttpStatus.BAD_REQUEST));
@@ -31,9 +35,24 @@ public class UserExceptionHandlerRestAdvice {
     }
 
     @ExceptionHandler
+    public ResponseEntity<ErrorMsg> handleHttpMediaTypeNotAcceptableException(HttpMediaTypeNotAcceptableException exc, HttpServletRequest httpRequest) {
+
+//        System.out.println("HttpMediaTypeNotAcceptableException "+ httpRequest.getPathInfo() + " "+ httpRequest.getMethod() + " "+ exc.getMessage());
+        ErrorMsg msg = new ErrorMsg();
+
+        msg.setStatus(String.valueOf(HttpStatus.BAD_REQUEST));
+        msg.setMethod(httpRequest.getMethod());
+        msg.setPath(httpRequest.getPathInfo());
+        msg.setMessage("Only Acceptable JSON");
+        msg.setTimeStamp(LocalDateTime.now().toString());
+
+        return new ResponseEntity<>(msg, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
     public ResponseEntity<ErrorMsg> handleBadRequestException(BadRequestException exc, HttpServletRequest httpRequest) {
 
-//        System.out.println("dddddddd "+ httpRequest.getPathInfo() + " "+ httpRequest.getMethod() + " "+ exc.getMessage());
+//        System.out.println("BadRequestException "+ httpRequest.getPathInfo() + " "+ httpRequest.getMethod() + " "+ exc.getMessage());
         ErrorMsg msg = new ErrorMsg();
 
         msg.setStatus(String.valueOf(HttpStatus.BAD_REQUEST));
@@ -48,7 +67,7 @@ public class UserExceptionHandlerRestAdvice {
     @ExceptionHandler
     public ResponseEntity<ErrorMsg> handleInventoryNotFoundException(InventoryNotFoundException exc, HttpServletRequest httpRequest) {
 
-//        System.out.println("dddddddd "+ httpRequest.getPathInfo() + " "+ httpRequest.getMethod() + " " + exc.getMessage());
+//        System.out.println("InventoryNotFoundException "+ httpRequest.getPathInfo() + " "+ httpRequest.getMethod() + " " + exc.getMessage());
         ErrorMsg msg = new ErrorMsg();
 
         msg.setStatus(String.valueOf(HttpStatus.NOT_FOUND));
@@ -63,7 +82,7 @@ public class UserExceptionHandlerRestAdvice {
     @ExceptionHandler
     public ResponseEntity<ErrorMsg> handleInventoryNotDeleteException(InventoryNotDeleteException exc, HttpServletRequest httpRequest) {
 
-//        System.out.println("dddddddd "+ httpRequest.getPathInfo() + " "+ httpRequest.getMethod() + " "+ exc.getMessage());
+//        System.out.println("InventoryNotDeleteException "+ httpRequest.getPathInfo() + " "+ httpRequest.getMethod() + " "+ exc.getMessage());
         ErrorMsg msg = new ErrorMsg();
 
         msg.setStatus(String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR));
@@ -78,7 +97,7 @@ public class UserExceptionHandlerRestAdvice {
     @ExceptionHandler
     public ResponseEntity<ErrorMsg> handleUserNotFoundException(UserNotFoundException exc, HttpServletRequest httpRequest) {
 
-//        System.out.println("dddddddd "+ httpRequest.getPathInfo() + " "+ httpRequest.getMethod() + " "+ exc.getMessage());
+//        System.out.println("UserNotFoundException "+ httpRequest.getPathInfo() + " "+ httpRequest.getMethod() + " "+ exc.getMessage());
         ErrorMsg msg = new ErrorMsg();
 
         msg.setStatus(String.valueOf(HttpStatus.NOT_FOUND));

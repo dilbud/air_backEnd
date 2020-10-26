@@ -10,18 +10,28 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
 
+/**
+ * login request handler
+ */
 @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 @RestController
 @RequestMapping("/login")
 public class LoginRestController {
 
-    private final UserServiceInterface userService;
+    private  UserServiceInterface userService;
 
     @Autowired
     public LoginRestController(UserServiceInterface userService) {
         this.userService = userService;
     }
 
+    /**
+     * @param user
+     * @param userId
+     * @param response
+     * @return SuccessMsg JSON object
+     * @throws Exception
+     */
     @PostMapping("/users")
     public SuccessMsg<User> login(
             @RequestBody User user,

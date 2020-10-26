@@ -9,17 +9,27 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * dashboard request handler
+ */
 @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 @RestController
 @RequestMapping("/dashboard")
 public class InventoryRestController {
-    private final InventoryServiceInterface inventoryService;
+
+    private  InventoryServiceInterface inventoryService;
 
     @Autowired
     public InventoryRestController(InventoryServiceInterface inventoryService) {
         this.inventoryService = inventoryService;
     }
 
+    /**
+     * @param allMap
+     * @param userId
+     * @return SuccessMsg JSON object
+     * @throws Exception
+     */
     @GetMapping("/inventories")
     public SuccessMsg<List<Invetory>> getInventories(
             @RequestParam() Map<String, String> allMap ,
@@ -35,6 +45,13 @@ public class InventoryRestController {
         return msg ;
     }
 
+    /**
+     * @param id
+     * @param allMap
+     * @param userId
+     * @return SuccessMsg JSON object
+     * @throws Exception
+     */
     @DeleteMapping("/inventories/{id}")
     public SuccessMsg<List<Invetory>> deleteInventories(
             @PathVariable Integer id,

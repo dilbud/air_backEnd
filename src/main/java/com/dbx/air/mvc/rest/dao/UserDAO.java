@@ -22,13 +22,11 @@ public class UserDAO implements UserDAOInterface{
 
     @Override
     public User getUser(String email, String password) {
-        User user = users.stream().filter(val -> val.getEmail().equals(email) & val.getPassword().equals(password) ).collect(Collectors.toList()).get(0);
+        User user = users.stream()
+                .filter(val -> val.getEmail().equals(email) & val.getPassword().equals(password) )
+                .collect(Collectors.toList())
+                .get(0);
         return new User(user);
     }
 
-    @Override
-    public User getUser(int id) {
-        User user = users.stream().filter(val -> val.getId() == id ).collect(Collectors.toList()).get(0);
-        return new User(user);
-    }
 }

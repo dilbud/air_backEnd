@@ -8,5 +8,5 @@ import java.util.Map;
 
 public interface InventoryServiceInterface {
     SuccessMsg<List<Invetory>> getInventory(Map<String, String> allMap) throws Exception;
-    SuccessMsg<List<Invetory>> deleteInventory(Integer id, Map<String, String> allMap) throws Exception;
+    SuccessMsg<Integer> deleteInventory(Integer id) throws Exception;
 }

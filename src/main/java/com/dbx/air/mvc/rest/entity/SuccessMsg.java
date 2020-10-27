@@ -8,6 +8,7 @@ public class SuccessMsg<E>{
     public String timeStamp;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     public Page page;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public E data;
 
     public SuccessMsg() {

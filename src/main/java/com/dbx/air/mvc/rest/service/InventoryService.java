@@ -4,6 +4,7 @@ import com.dbx.air.mvc.rest.dao.InventoryDAOInterface;
 import com.dbx.air.mvc.rest.entity.Invetory;
 import com.dbx.air.mvc.rest.entity.Page;
 import com.dbx.air.mvc.rest.entity.SuccessMsg;
+import com.dbx.air.mvc.rest.entity.User;
 import com.dbx.air.mvc.rest.exception.InventoryNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,12 +57,17 @@ public class InventoryService implements InventoryServiceInterface{
     }
 
     @Override
-    public SuccessMsg<List<Invetory>> deleteInventory(Integer id, Map<String, String> allMap) throws Exception {
+    public SuccessMsg<Integer> deleteInventory(Integer id) throws Exception {
+
+        SuccessMsg<Integer> msg  = new SuccessMsg<Integer>();
+        msg.setTimeStamp(LocalDateTime.now().toString());
 
         switch (inventoryDAO.deleteInventory(id)) {
             case DELETED:
             {
-                return getInventory(allMap);
+                msg.setMessage("Item deleted");
+                msg.setStatus("200");
+                return msg;
             }
             case NOTFOUND:
             {

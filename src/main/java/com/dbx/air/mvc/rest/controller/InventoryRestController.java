@@ -47,24 +47,16 @@ public class InventoryRestController {
 
     /**
      * @param id
-     * @param allMap
      * @param userId
      * @return SuccessMsg JSON object
      * @throws Exception
      */
     @DeleteMapping("/inventories/{id}")
-    public SuccessMsg<List<Invetory>> deleteInventories(
+    public SuccessMsg<Integer> deleteInventories(
             @PathVariable Integer id,
-            @RequestParam() Map<String, String> allMap ,
             @CookieValue(value = "userId", defaultValue = "0") int userId) throws Exception {
 
-        SuccessMsg<List<Invetory>> msg;
-        if(allMap.keySet().toArray().length == 7) {
-            msg = inventoryService.deleteInventory(id,allMap);
-        } else {
-            throw new BadRequestException();
-        }
-
+        SuccessMsg<Integer> msg = inventoryService.deleteInventory(id);
         return msg;
     }
 }

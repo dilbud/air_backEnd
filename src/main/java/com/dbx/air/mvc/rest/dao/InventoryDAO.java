@@ -4,6 +4,9 @@ import com.dbx.air.mvc.rest.entity.InventoryState;
 import com.dbx.air.mvc.rest.entity.Invetory;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.util.*;
 import java.lang.*;
 import java.util.stream.Collectors;
@@ -135,5 +138,37 @@ public class InventoryDAO implements InventoryDAOInterface {
            return v.getId() != id;
         }).collect(Collectors.toList());
         return InventoryState.DELETED;
+    }
+
+    @Override
+    public InventoryState updateInventory(Integer id, Invetory item) throws Exception {
+        item.setPrice(new BigDecimal(item.getPrice()).setScale(2, RoundingMode.FLOOR).toString());
+        Invetory isFind =inventories.stream().filter(v -> v.getId() == id).findFirst().orElse(null);
+        if(isFind == null) {
+            return InventoryState.NOTFOUND;
+        }
+        inventories = (ArrayList<Invetory>) inventories.stream().map(v -> {
+            if(v.getId() == id){
+                return item;
+            }else {
+                return v;
+            }
+        }).collect(Collectors.toList());
+        return InventoryState.UPDATED;
+    }
+
+    @Override
+    public InventoryState addInventory(Invetory item) throws Exception {
+
+        item.setPrice(new BigDecimal(item.getPrice()).setScale(2, RoundingMode.FLOOR).toString());
+        int size = inventories.size();
+        if(size > 0) {
+            item.setId(inventories.get(size - 1).getId() + 1);
+        }else {
+            item.setId(100);
+        }
+        inventories.add(item);
+
+        return InventoryState.ADDED;
     }
 }

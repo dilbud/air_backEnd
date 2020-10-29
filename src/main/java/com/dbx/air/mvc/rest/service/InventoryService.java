@@ -15,6 +15,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.dbx.air.mvc.rest.entity.InventoryState.*;
+
 @Service
 public class InventoryService implements InventoryServiceInterface{
     private final InventoryDAOInterface inventoryDAO;
@@ -80,4 +82,50 @@ public class InventoryService implements InventoryServiceInterface{
         }
     }
 
+    @Override
+    public SuccessMsg<Integer> updateInventory(Integer id, Invetory item) throws Exception {
+        SuccessMsg<Integer> msg  = new SuccessMsg<Integer>();
+        msg.setTimeStamp(LocalDateTime.now().toString());
+
+        switch (inventoryDAO.updateInventory(id, item)) {
+            case UPDATED:
+            {
+                msg.setMessage("Item Updated");
+                msg.setStatus("200");
+                return msg;
+            }
+            case NOTFOUND:
+            {
+                throw new InventoryNotFoundException();
+            }
+            default:
+            {
+                throw new Exception();
+            }
+        }
+    }
+
+    @Override
+    public SuccessMsg<Integer> addInventory(Invetory item) throws Exception {
+
+        SuccessMsg<Integer> msg  = new SuccessMsg<Integer>();
+        msg.setTimeStamp(LocalDateTime.now().toString());
+
+        switch (inventoryDAO.addInventory(item)) {
+            case ADDED:
+            {
+                msg.setMessage("Item Added");
+                msg.setStatus("200");
+                return msg;
+            }
+            case NOTFOUND:
+            {
+                throw new InventoryNotFoundException();
+            }
+            default:
+            {
+                throw new Exception();
+            }
+        }
+    }
 }

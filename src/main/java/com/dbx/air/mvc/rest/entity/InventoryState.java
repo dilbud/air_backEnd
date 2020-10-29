@@ -4,4 +4,6 @@ public enum InventoryState {
     NOTFOUND,
     DELETED,
     FOUND,
+    UPDATED,
+    ADDED
 }

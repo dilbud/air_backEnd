@@ -12,7 +12,16 @@ import java.util.Map;
 /**
  * dashboard request handler
  */
-@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
+@CrossOrigin(
+        origins = "http://localhost:4200",
+        allowCredentials = "true",
+        methods =
+                {
+                        RequestMethod.GET,
+                        RequestMethod.POST,
+                        RequestMethod.PUT,
+                        RequestMethod.DELETE
+                })
 @RestController
 @RequestMapping("/dashboard")
 public class InventoryRestController {
@@ -57,6 +66,25 @@ public class InventoryRestController {
             @CookieValue(value = "userId", defaultValue = "0") int userId) throws Exception {
 
         SuccessMsg<Integer> msg = inventoryService.deleteInventory(id);
+        return msg;
+    }
+
+    @PutMapping("/inventories/{id}")
+    public SuccessMsg<Integer> updateInventories(
+            @PathVariable Integer id,
+            @RequestBody Invetory item,
+            @CookieValue(value = "userId", defaultValue = "0") int userId) throws Exception {
+
+        SuccessMsg<Integer> msg = inventoryService.updateInventory(id, item);
+        return msg;
+    }
+
+    @PostMapping("/inventories")
+    public SuccessMsg<Integer> addInventories(
+            @RequestBody Invetory item,
+            @CookieValue(value = "userId", defaultValue = "0") int userId) throws Exception {
+
+        SuccessMsg<Integer> msg = inventoryService.addInventory(item);
         return msg;
     }
 }

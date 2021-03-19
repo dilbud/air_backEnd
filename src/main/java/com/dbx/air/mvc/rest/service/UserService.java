@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserService implements UserServiceInterface{
+public class UserService implements UserServiceInterface {
 
     private final UserDAOInterface userDAO;
 
@@ -16,7 +16,7 @@ public class UserService implements UserServiceInterface{
     }
 
     @Override
-    public User getUser(String email, String password){
+    public User getUser(String email, String password) {
         return userDAO.getUser(email, password);
     }
 

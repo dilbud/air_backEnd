@@ -6,6 +6,7 @@ import com.dbx.air.mvc.rest.exception.UserNotFoundException;
 import com.dbx.air.mvc.rest.service.UserServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
@@ -18,7 +19,7 @@ import java.time.LocalDateTime;
 @RequestMapping("/login")
 public class LoginRestController {
 
-    private  UserServiceInterface userService;
+    private UserServiceInterface userService;
 
     @Autowired
     public LoginRestController(UserServiceInterface userService) {
@@ -37,16 +38,16 @@ public class LoginRestController {
             @RequestBody User user,
             @CookieValue(value = "userId", defaultValue = "0") int userId,
             HttpServletResponse response) throws Exception {
-        System.out.println("this is userId from cookie "+ userId);
+        System.out.println("this is userId from cookie " + userId);
         User updatedUser = userService.getUser(user.getEmail(), user.getPassword());
-        if(updatedUser == null) {
+        if (updatedUser == null) {
             throw new UserNotFoundException();
         }
         Cookie cookie = new Cookie("userId", Integer.toString(updatedUser.getId()));
-        cookie.setMaxAge(1000*60*60);
+        cookie.setMaxAge(1000 * 60 * 60);
         response.addCookie(cookie);
 
-        SuccessMsg<User> msg  = new SuccessMsg<User>();
+        SuccessMsg<User> msg = new SuccessMsg<User>();
         msg.setData(updatedUser);
         msg.setTimeStamp(LocalDateTime.now().toString());
         msg.setMessage("Login Success");

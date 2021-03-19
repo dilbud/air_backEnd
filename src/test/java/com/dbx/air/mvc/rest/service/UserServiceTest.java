@@ -18,7 +18,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {WebConfig.class, WebAppInitializer.class })
+@ContextConfiguration(classes = {WebConfig.class, WebAppInitializer.class})
 @WebAppConfiguration
 public class UserServiceTest {
 

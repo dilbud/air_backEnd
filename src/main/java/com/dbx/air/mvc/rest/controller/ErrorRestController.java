@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @CrossOrigin(
         origins = "http://localhost:4200",
-        allowCredentials = "true" ,
+        allowCredentials = "true",
         methods =
                 {
                         RequestMethod.GET,
@@ -24,8 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/**")
 public class ErrorRestController {
     /**
-     * @throws Exception
-     * handle all request method
+     * @throws Exception handle all request method
      */
     @RequestMapping
     public void renderErrorPage() throws Exception {

@@ -6,6 +6,7 @@ import com.dbx.air.mvc.rest.exception.BadRequestException;
 import com.dbx.air.mvc.rest.service.InventoryServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.Map;
 
@@ -26,7 +27,7 @@ import java.util.Map;
 @RequestMapping("/dashboard")
 public class InventoryRestController {
 
-    private  InventoryServiceInterface inventoryService;
+    private InventoryServiceInterface inventoryService;
 
     @Autowired
     public InventoryRestController(InventoryServiceInterface inventoryService) {
@@ -41,17 +42,17 @@ public class InventoryRestController {
      */
     @GetMapping("/inventories")
     public SuccessMsg<List<Invetory>> getInventories(
-            @RequestParam() Map<String, String> allMap ,
+            @RequestParam() Map<String, String> allMap,
             @CookieValue(value = "userId", defaultValue = "0") int userId) throws Exception {
 
-        SuccessMsg<List<Invetory>> msg ;
-        if(allMap.keySet().toArray().length == 7) {
+        SuccessMsg<List<Invetory>> msg;
+        if (allMap.keySet().toArray().length == 7) {
             msg = inventoryService.getInventory(allMap);
         } else {
             throw new BadRequestException();
         }
 
-        return msg ;
+        return msg;
     }
 
     /**

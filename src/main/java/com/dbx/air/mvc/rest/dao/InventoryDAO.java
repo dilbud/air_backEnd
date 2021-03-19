@@ -52,14 +52,14 @@ public class InventoryDAO implements InventoryDAOInterface {
         int a = 100;
         Random r = new Random();
 
-        for(int i=0; i<4 ; i++) {
-            for(int j=0; j<4 ; j++) {
-                for(int k=0; k<4 ; k++) {
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                for (int k = 0; k < 4; k++) {
                     int v = 0;
-                    if(j==0) v = k;
-                    if(j==1) v = k + 4;
-                    if(j==2) v = k + 8;
-                    if(j==3) v = k + 12;
+                    if (j == 0) v = k;
+                    if (j == 1) v = k + 4;
+                    if (j == 2) v = k + 8;
+                    if (j == 3) v = k + 12;
 
                     int p = r.nextInt((50000 - 10000) + 1) + 10000;
                     int pp = r.nextInt((90 - 20) + 1) + 20;
@@ -69,9 +69,9 @@ public class InventoryDAO implements InventoryDAOInterface {
                     int dddd = r.nextInt((2030 - 2022) + 1) + 2022;
                     int dd = r.nextInt((12 - 1) + 1) + 1;
                     int d = r.nextInt((28 - 1) + 1) + 1;
-                    String date = dddd + "-" + dd + "-"+ d;
+                    String date = dddd + "-" + dd + "-" + d;
 
-                    inventories.add(new Invetory(a++,brand.get(i),type.get(j),description.get(v),price,date));
+                    inventories.add(new Invetory(a++, brand.get(i), type.get(j), description.get(v), price, date));
                 }
             }
         }
@@ -82,60 +82,67 @@ public class InventoryDAO implements InventoryDAOInterface {
     }
 
     @Override
-    public List<Invetory> getInventories(HashMap<String, List<String>> allMap) throws Exception{
+    public List<Invetory> getInventories(HashMap<String, List<String>> allMap) throws Exception {
 
-        List<Invetory> filterList =  inventories.stream()
+        List<Invetory> filterList = inventories.stream()
                 .filter(v -> {
 //                    find Brand
-                    if(allMap.get("brandCtrl").get(0).equals("any")){
+                    if (allMap.get("brandCtrl").get(0).equals("any")) {
                         return true;
                     }
                     return allMap.get("brandCtrl").stream().map((m) -> {
 //                        System.out.println(v.getId()+ " req brand "+ m + " " + "item brand " + v.getBrand() +" "+ m.equals(v.getBrand()));
                         return m.equals(v.getBrand());
                     }).reduce(false,
-                            (a, b) -> {return a | b;});
+                            (a, b) -> {
+                                return a | b;
+                            });
                 })
                 .filter(v -> {
 //                    find Type
-                    if(allMap.get("typeCtrl").get(0).equals("any")){
+                    if (allMap.get("typeCtrl").get(0).equals("any")) {
                         return true;
                     }
                     return allMap.get("typeCtrl").stream().map((m) -> {
 //                        System.out.println(v.getId()+ " req brand "+ m + " " + "item brand " + v.getType() +" "+ m.equals(v.getType()));
                         return m.equals(v.getType());
                     }).reduce(false,
-                            (a, b) -> {return a | b;});
+                            (a, b) -> {
+                                return a | b;
+                            });
                 })
                 .filter(v -> {
 //                    find text
-                    if(allMap.get("textCtrl").get(0).equals("any")) {
+                    if (allMap.get("textCtrl").get(0).equals("any")) {
                         return true;
                     }
                     return allMap.get("textCtrl").stream().map((m) -> {
                         return Arrays.stream(v.getDescription().trim().toLowerCase().split(" "))
-                                .filter((vv) -> vv !=" ")
-                                .map((mm) -> mm.indexOf(m) != -1 )
+                                .filter((vv) -> vv != " ")
+                                .map((mm) -> mm.indexOf(m) != -1)
                                 .reduce(false, (aa, bb) -> aa | bb);
                     }).reduce(false,
-                            (a, b) -> {return a | b;});
+                            (a, b) -> {
+                                return a | b;
+                            });
                 })
                 .collect(Collectors.toList());
 //        filterList.forEach((v)-> System.out.println(v.getBrand()+" "+ v.getType()+ " "+ v.getDescription()));
         return filterList;
     }
+
     @Override
-    public InventoryState deleteInventory(Integer id)  throws Exception{
+    public InventoryState deleteInventory(Integer id) throws Exception {
 
         Invetory isFind = inventories.stream()
                 .filter((v) -> v.getId() == id)
                 .findFirst()
                 .orElse(null);
-        if(isFind == null) {
+        if (isFind == null) {
             return InventoryState.NOTFOUND;
         }
         inventories = (ArrayList<Invetory>) inventories.stream().filter((v) -> {
-           return v.getId() != id;
+            return v.getId() != id;
         }).collect(Collectors.toList());
         return InventoryState.DELETED;
     }
@@ -143,14 +150,14 @@ public class InventoryDAO implements InventoryDAOInterface {
     @Override
     public InventoryState updateInventory(Integer id, Invetory item) throws Exception {
         item.setPrice(new BigDecimal(item.getPrice()).setScale(2, RoundingMode.FLOOR).toString());
-        Invetory isFind =inventories.stream().filter(v -> v.getId() == id).findFirst().orElse(null);
-        if(isFind == null) {
+        Invetory isFind = inventories.stream().filter(v -> v.getId() == id).findFirst().orElse(null);
+        if (isFind == null) {
             return InventoryState.NOTFOUND;
         }
         inventories = (ArrayList<Invetory>) inventories.stream().map(v -> {
-            if(v.getId() == id){
+            if (v.getId() == id) {
                 return item;
-            }else {
+            } else {
                 return v;
             }
         }).collect(Collectors.toList());
@@ -162,9 +169,9 @@ public class InventoryDAO implements InventoryDAOInterface {
 
         item.setPrice(new BigDecimal(item.getPrice()).setScale(2, RoundingMode.FLOOR).toString());
         int size = inventories.size();
-        if(size > 0) {
+        if (size > 0) {
             item.setId(inventories.get(size - 1).getId() + 1);
-        }else {
+        } else {
             item.setId(100);
         }
         inventories.add(item);

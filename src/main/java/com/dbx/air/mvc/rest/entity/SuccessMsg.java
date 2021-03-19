@@ -2,7 +2,7 @@ package com.dbx.air.mvc.rest.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-public class SuccessMsg<E>{
+public class SuccessMsg<E> {
     public String status;
     public String message;
     public String timeStamp;

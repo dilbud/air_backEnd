@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {WebConfig.class, WebAppInitializer.class })
+@ContextConfiguration(classes = {WebConfig.class, WebAppInitializer.class})
 @WebAppConfiguration
 public class InventoryRestControllerTest {
 

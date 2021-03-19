@@ -40,7 +40,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {WebConfig.class, WebAppInitializer.class })
+@ContextConfiguration(classes = {WebConfig.class, WebAppInitializer.class})
 @WebAppConfiguration
 public class LoginRestControllerTest {
 
@@ -58,7 +58,7 @@ public class LoginRestControllerTest {
 //        this.mockMvc = MockMvcBuilders
 //                .standaloneSetup(loginRestController)
 //                .build();
-                this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac). build();
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
     }
 
     @After

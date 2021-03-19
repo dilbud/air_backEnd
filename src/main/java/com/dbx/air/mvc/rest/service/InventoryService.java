@@ -18,7 +18,7 @@ import java.util.Map;
 import static com.dbx.air.mvc.rest.entity.InventoryState.*;
 
 @Service
-public class InventoryService implements InventoryServiceInterface{
+public class InventoryService implements InventoryServiceInterface {
     private final InventoryDAOInterface inventoryDAO;
 
     @Autowired
@@ -27,10 +27,10 @@ public class InventoryService implements InventoryServiceInterface{
     }
 
     @Override
-    public SuccessMsg<List<Invetory>> getInventory(Map<String, String> allMap) throws Exception{
+    public SuccessMsg<List<Invetory>> getInventory(Map<String, String> allMap) throws Exception {
 
-        HashMap <String, List<String>> daoMap = new HashMap<>();
-        HashMap <String, Integer> pageMap = new HashMap<>();
+        HashMap<String, List<String>> daoMap = new HashMap<>();
+        HashMap<String, Integer> pageMap = new HashMap<>();
 
         daoMap.put("brandCtrl", Arrays.asList(allMap.get("brandCtrl").split(",")));
         daoMap.put("typeCtrl", Arrays.asList(allMap.get("typeCtrl").split(",")));
@@ -46,14 +46,14 @@ public class InventoryService implements InventoryServiceInterface{
             throw new InventoryNotFoundException();
         }
         int length = filteredArray.size();
-        pageMap.replace("length",length);
+        pageMap.replace("length", length);
 
-        filteredArray = filteredArray.subList(pageMap.get("pageIndex") * pageMap.get("pageSize"), Math.min((pageMap.get("pageIndex")+1) * pageMap.get("pageSize"), length));
+        filteredArray = filteredArray.subList(pageMap.get("pageIndex") * pageMap.get("pageSize"), Math.min((pageMap.get("pageIndex") + 1) * pageMap.get("pageSize"), length));
         SuccessMsg msg = new SuccessMsg<List<Invetory>>();
         msg.setStatus("200");
         msg.setMessage("Inventory Data");
         msg.setTimeStamp(LocalDateTime.now().toString());
-        msg.setPage(new Page(pageMap.get("previousPageIndex"),pageMap.get("pageIndex"),pageMap.get("pageSize"),pageMap.get("length")));
+        msg.setPage(new Page(pageMap.get("previousPageIndex"), pageMap.get("pageIndex"), pageMap.get("pageSize"), pageMap.get("length")));
         msg.setData(filteredArray);
         return msg;
     }
@@ -61,22 +61,19 @@ public class InventoryService implements InventoryServiceInterface{
     @Override
     public SuccessMsg<Integer> deleteInventory(Integer id) throws Exception {
 
-        SuccessMsg<Integer> msg  = new SuccessMsg<Integer>();
+        SuccessMsg<Integer> msg = new SuccessMsg<Integer>();
         msg.setTimeStamp(LocalDateTime.now().toString());
 
         switch (inventoryDAO.deleteInventory(id)) {
-            case DELETED:
-            {
+            case DELETED: {
                 msg.setMessage("Item deleted");
                 msg.setStatus("200");
                 return msg;
             }
-            case NOTFOUND:
-            {
+            case NOTFOUND: {
                 throw new InventoryNotFoundException();
             }
-            default:
-            {
+            default: {
                 throw new Exception();
             }
         }
@@ -84,22 +81,19 @@ public class InventoryService implements InventoryServiceInterface{
 
     @Override
     public SuccessMsg<Integer> updateInventory(Integer id, Invetory item) throws Exception {
-        SuccessMsg<Integer> msg  = new SuccessMsg<Integer>();
+        SuccessMsg<Integer> msg = new SuccessMsg<Integer>();
         msg.setTimeStamp(LocalDateTime.now().toString());
 
         switch (inventoryDAO.updateInventory(id, item)) {
-            case UPDATED:
-            {
+            case UPDATED: {
                 msg.setMessage("Item Updated");
                 msg.setStatus("200");
                 return msg;
             }
-            case NOTFOUND:
-            {
+            case NOTFOUND: {
                 throw new InventoryNotFoundException();
             }
-            default:
-            {
+            default: {
                 throw new Exception();
             }
         }
@@ -108,22 +102,19 @@ public class InventoryService implements InventoryServiceInterface{
     @Override
     public SuccessMsg<Integer> addInventory(Invetory item) throws Exception {
 
-        SuccessMsg<Integer> msg  = new SuccessMsg<Integer>();
+        SuccessMsg<Integer> msg = new SuccessMsg<Integer>();
         msg.setTimeStamp(LocalDateTime.now().toString());
 
         switch (inventoryDAO.addInventory(item)) {
-            case ADDED:
-            {
+            case ADDED: {
                 msg.setMessage("Item Added");
                 msg.setStatus("200");
                 return msg;
             }
-            case NOTFOUND:
-            {
+            case NOTFOUND: {
                 throw new InventoryNotFoundException();
             }
-            default:
-            {
+            default: {
                 throw new Exception();
             }
         }

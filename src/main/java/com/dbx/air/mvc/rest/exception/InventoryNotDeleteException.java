@@ -1,6 +1,6 @@
 package com.dbx.air.mvc.rest.exception;
 
-public class InventoryNotDeleteException extends RuntimeException{
+public class InventoryNotDeleteException extends RuntimeException {
     public InventoryNotDeleteException() {
         super();
     }

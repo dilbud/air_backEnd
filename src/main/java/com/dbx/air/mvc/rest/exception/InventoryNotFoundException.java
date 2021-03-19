@@ -1,6 +1,6 @@
 package com.dbx.air.mvc.rest.exception;
 
-public class InventoryNotFoundException extends RuntimeException{
+public class InventoryNotFoundException extends RuntimeException {
     public InventoryNotFoundException() {
         super();
     }
